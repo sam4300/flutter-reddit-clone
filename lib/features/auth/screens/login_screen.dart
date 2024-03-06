@@ -5,6 +5,7 @@ import 'package:reddit_clone/core/constants/constant.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +19,8 @@ class LoginScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 5.0),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+              },
               child: const Text('Skip'),
             ),
           ),
