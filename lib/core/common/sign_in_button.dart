@@ -7,31 +7,34 @@ import 'package:reddit_clone/theme/palette.dart';
 class SigninButton extends ConsumerWidget {
   const SigninButton({super.key});
 
-  
-  void buttonPressed(WidgetRef ref) {
-    ref.read(authControllerProvider).signInWithGoogle();
+  void buttonPressed(WidgetRef ref, BuildContext context) {
+    ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    return ElevatedButton.icon(
-      icon: Image.asset(
-        Constant.googleLogoPath,
-        height: 40,
-      ),
-      onPressed: () {
-        buttonPressed(ref);
-      },
-      label: const Text(
-        'Sign in with Google',
-        style: TextStyle(color: Colors.white),
-      ),
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Pallete.greyColor,
-          minimumSize: const Size(500, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          )),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        ElevatedButton.icon(
+          icon: Image.asset(
+            Constant.googleLogoPath,
+            height: 40,
+          ),
+          onPressed: () {
+            buttonPressed(ref, context);
+          },
+          label: const Text(
+            'Sign in with Google',
+            style: TextStyle(color: Colors.white),
+          ),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Pallete.greyColor,
+              minimumSize: const Size(500, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              )),
+        ),
+      ],
     );
   }
 }
