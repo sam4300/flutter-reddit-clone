@@ -7,7 +7,7 @@ import 'package:reddit_clone/theme/palette.dart';
 class SigninButton extends ConsumerWidget {
   const SigninButton({super.key});
 
-  void buttonPressed(WidgetRef ref, BuildContext context) {
+  void signIn(WidgetRef ref, BuildContext context) {
     ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
@@ -21,7 +21,7 @@ class SigninButton extends ConsumerWidget {
             height: 40,
           ),
           onPressed: () {
-            buttonPressed(ref, context);
+            signIn(ref, context);
           },
           label: const Text(
             'Sign in with Google',
