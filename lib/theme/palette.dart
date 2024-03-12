@@ -11,22 +11,21 @@ class Pallete {
 
   // Themes
   static var darkModeAppTheme = ThemeData.dark().copyWith(
-    scaffoldBackgroundColor: blackColor,
-    cardColor: greyColor,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: drawerColor,
-      iconTheme: IconThemeData(
-        color: whiteColor,
+      scaffoldBackgroundColor: blackColor,
+      cardColor: greyColor,
+      primaryTextTheme: const TextTheme(),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: drawerColor,
+        iconTheme: IconThemeData(
+          color: whiteColor,
+        ),
       ),
-    ),
-    drawerTheme: const DrawerThemeData(
-      backgroundColor: drawerColor,
-    ),
-    primaryColor: redColor,
-    colorScheme: ColorScheme.fromSwatch().copyWith(
-      background: drawerColor,
-    ),
-  );
+      drawerTheme: const DrawerThemeData(
+        backgroundColor: drawerColor,
+      ),
+      primaryColor: redColor,
+      colorScheme: const ColorScheme.dark(background: drawerColor));
+  // backgroundColor: drawerColor);
 
   static var lightModeAppTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: whiteColor,
@@ -42,8 +41,6 @@ class Pallete {
       backgroundColor: whiteColor,
     ),
     primaryColor: redColor,
-    colorScheme: ColorScheme.fromSwatch().copyWith(
-      background: whiteColor,
-    ),
+    colorScheme: const ColorScheme.dark(background: whiteColor),
   );
 }
