@@ -5,18 +5,25 @@ import 'package:reddit_clone/core/utils.dart';
 import 'package:reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_clone/features/community/repository/community_repository.dart';
 import 'package:reddit_clone/models/community_model.dart';
+import 'package:reddit_clone/models/user_model.dart';
 import 'package:routemaster/routemaster.dart';
-
-final communityListProvider = StreamProvider((ref) {
-  final getCommunityControllerProvider =
-      ref.watch(communityControllerProvider.notifier);
-  return getCommunityControllerProvider.getCommunities();
-});
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
   return CommunityController(
       communityRepository: ref.read(communityRepositoryProvider), ref: ref);
+});
+final communityListProvider = StreamProvider((ref) {
+  final getCommunityControllerProvider =
+      ref.watch(communityControllerProvider.notifier);
+  return getCommunityControllerProvider.getCommunities();
+});
+final communityNameProvider = StateProvider<String?>((ref) => null);
+
+final communityByNameProvider = StreamProvider((ref) {
+  final name = ref.watch(communityNameProvider);
+  final controller = ref.watch(communityControllerProvider.notifier);
+  return controller.getCommunityByName(name!);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -45,6 +52,10 @@ class CommunityController extends StateNotifier<bool> {
       showSnackBar(context, 'Community Successfully Created');
       Routemaster.of(context).pop();
     });
+  }
+
+  Stream<Community> getCommunityByName(String name) {
+    return _communityRepository.getCommunityByName(name);
   }
 
   Stream<List<Community>> getCommunities() {
