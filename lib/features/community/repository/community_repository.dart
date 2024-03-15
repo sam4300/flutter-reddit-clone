@@ -18,6 +18,9 @@ class CommunityRepository {
   const CommunityRepository({required FirebaseFirestore firestore})
       : _firestore = firestore;
 
+  CollectionReference get _communities =>
+      _firestore.collection(FirebaseConstants.communitiesCollection);
+
   FutureVoid createCommunity(Community community) async {
     try {
       final communityDoc = await _communities.doc(community.name).get();
@@ -56,6 +59,21 @@ class CommunityRepository {
         (event) => Community.fromMap(event.data() as Map<String, dynamic>));
   }
 
-  CollectionReference get _communities =>
-      _firestore.collection(FirebaseConstants.communitiesCollection);
+  FutureVoid editCommunity(Community community) async {
+    try {
+      return right(
+        _communities.doc(community.name).update(
+              community.toMap(),
+            ),
+      );
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(
+        Failure(
+          e.toString(),
+        ),
+      );
+    }
+  }
 }

@@ -12,7 +12,7 @@ class CommunityDrawer extends ConsumerWidget {
     Routemaster.of(context).push('/create-community');
   }
 
-  void navigateToCommunityScreen(BuildContext context,String name) {
+  void navigateToCommunityScreen(BuildContext context, String name) {
     Routemaster.of(context).push('/r/$name');
   }
 
@@ -42,9 +42,10 @@ class CommunityDrawer extends ConsumerWidget {
                           return ListTile(
                             onTap: () {
                               ref
-                                  .read(communityNameProvider.notifier)
+                                  .watch(communityNameProvider.notifier)
                                   .update((state) => community.name);
-                              navigateToCommunityScreen(context,community.name);
+                              navigateToCommunityScreen(
+                                  context, community.name);
                             },
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(community.avatar),
