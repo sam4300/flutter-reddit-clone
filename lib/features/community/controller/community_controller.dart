@@ -18,17 +18,25 @@ final communityControllerProvider =
     storageRepository: ref.read(storageRepositoryProvider),
   );
 });
+
 final communityListProvider = StreamProvider((ref) {
   final getCommunityControllerProvider =
       ref.watch(communityControllerProvider.notifier);
   return getCommunityControllerProvider.getCommunities();
 });
+
 final communityNameProvider = StateProvider<String?>((ref) => null);
 
 final communityByNameProvider = StreamProvider((ref) {
   final name = ref.watch(communityNameProvider);
   final controller = ref.watch(communityControllerProvider.notifier);
   return controller.getCommunityByName(name!);
+});
+
+final searchCommunityProvider = StreamProvider.family((ref, String query) {
+  final controller = ref.watch(communityControllerProvider.notifier);
+
+  return controller.searchCommunity(query);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -71,6 +79,10 @@ class CommunityController extends StateNotifier<bool> {
   Stream<List<Community>> getCommunities() {
     final uid = _ref.read(userProvider)!.uid;
     return _communityRepository.getCommunities(uid);
+  }
+
+  Stream<List<Community>> searchCommunity(String query) {
+    return _communityRepository.searchCommunity(query);
   }
 
   void editCommunity(
