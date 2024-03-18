@@ -82,4 +82,9 @@ class AuthRepository {
           (event) => UserModel.fromMap(event.data() as Map<String, dynamic>),
         );
   }
+
+  void logOut() async {
+    await _googleSignin.signOut();
+    await _firebaseAuth.signOut();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:reddit_clone/core/common/error_text.dart';
 import 'package:reddit_clone/core/common/loader.dart';
 import 'package:reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_clone/features/community/controller/community_controller.dart';
+import 'package:reddit_clone/models/community_model.dart';
 import 'package:reddit_clone/theme/palette.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -16,11 +17,18 @@ class CommunityScreen extends ConsumerWidget {
     super.key,
   });
 
+  void joinOrLeaveCommunity(
+      WidgetRef ref, BuildContext context, Community community) {
+    ref
+        .read(communityControllerProvider.notifier)
+        .joinOrLeaveCommunity(context, community);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
     return Scaffold(
-      body: ref.read(communityByNameProvider).when(
+      body: ref.watch(communityByNameProvider).when(
           data: (community) => NestedScrollView(
                 headerSliverBuilder: ((context, innerBoxIsScrolled) {
                   return [
@@ -59,7 +67,7 @@ class CommunityScreen extends ConsumerWidget {
                                 style: const TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.bold),
                               ),
-                              community.members.contains(user.uid)
+                              community.mods.contains(user.uid)
                                   ? OutlinedButton(
                                       style: OutlinedButton.styleFrom(
                                         side: const BorderSide(
@@ -87,7 +95,8 @@ class CommunityScreen extends ConsumerWidget {
                                               BorderRadius.circular(20),
                                         ),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () => joinOrLeaveCommunity(
+                                          ref, context, community),
                                       child: Text(
                                         community.members.contains(user.uid)
                                             ? 'Joined'

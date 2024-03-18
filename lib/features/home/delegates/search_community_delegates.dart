@@ -44,7 +44,12 @@ class SearchCommunityDelegate extends SearchDelegate {
             itemBuilder: (BuildContext context, int index) {
               final community = communities[index];
               return ListTile(
-                onTap: () => navigateToCommunityScreen(context, community.name),
+                onTap: () {
+                  ref
+                      .watch(communityNameProvider.notifier)
+                      .update((state) => community.name);
+                  navigateToCommunityScreen(context, community.name);
+                },
                 leading: CircleAvatar(
                   backgroundImage: NetworkImage(community.avatar),
                 ),
