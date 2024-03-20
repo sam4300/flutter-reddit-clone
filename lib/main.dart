@@ -48,7 +48,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           data: (user) => MaterialApp.router(
             debugShowCheckedModeBanner: false,
             title: 'Reddit Clone',
-            theme: Pallete.darkModeAppTheme,
+            theme: ref.watch(themeNotifierProvider),
             routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
               if (user != null) {
                 getData(user);

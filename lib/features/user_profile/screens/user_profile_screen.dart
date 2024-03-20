@@ -57,7 +57,7 @@ class UserProfileScreen extends ConsumerWidget {
                               ),
                               child: const Text(
                                 'Edit Profile',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.blue),
                               ),
                             ),
                           ),

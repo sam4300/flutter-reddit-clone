@@ -66,7 +66,6 @@ class _AddModeratorScreenState extends ConsumerState<AddModeratorScreen> {
                         if (community.mods.contains(user.uid) && ctr == 0) {
                           uids.add(user.uid);
                         }
-                        print(uids);
                         return CheckboxListTile(
                           value: uids.contains(user.uid),
                           onChanged: (val) {
