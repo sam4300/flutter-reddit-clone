@@ -35,7 +35,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   void getData(User data) async {
     userModel = await ref
-        .watch(authControllerProvider.notifier)
+        .read(authControllerProvider.notifier)
         .getUserData(data.uid)
         .first;
     ref.read(userProvider.notifier).update((state) => userModel);
@@ -45,13 +45,13 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ref.watch(authStateChangeProvider).when(
-          data: (data) => MaterialApp.router(
+          data: (user) => MaterialApp.router(
             debugShowCheckedModeBanner: false,
             title: 'Reddit Clone',
             theme: Pallete.darkModeAppTheme,
             routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
-              if (data != null) {
-                getData(data);
+              if (user != null) {
+                getData(user);
                 if (userModel != null) {
                   return loggedInRoute;
                 }

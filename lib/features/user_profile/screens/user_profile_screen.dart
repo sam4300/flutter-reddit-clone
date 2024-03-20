@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_clone/core/common/error_text.dart';
 import 'package:reddit_clone/core/common/loader.dart';
 import 'package:reddit_clone/features/auth/controller/auth_controller.dart';
+import 'package:routemaster/routemaster.dart';
 
 class UserProfileScreen extends ConsumerWidget {
   final String uid;
   const UserProfileScreen({super.key, required this.uid});
 
-  void navigateToEditUser(BuildContext context) {}
+  void navigateToEditUser(BuildContext context) {
+    Routemaster.of(context).push('/u/$uid/edit-user-profile');
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +34,7 @@ class UserProfileScreen extends ConsumerWidget {
                             ),
                           ),
                           Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
                             alignment: Alignment.bottomLeft,
                             padding:
                                 const EdgeInsets.all(20).copyWith(bottom: 70),
@@ -51,7 +55,10 @@ class UserProfileScreen extends ConsumerWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 25),
                               ),
-                              child: const Text('Edit Profile'),
+                              child: const Text(
+                                'Edit Profile',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ],
@@ -88,7 +95,7 @@ class UserProfileScreen extends ConsumerWidget {
                     ),
                   ];
                 },
-                body: const SizedBox(),
+                body: const Text('Displaying posts'),
               ),
               error: (error, stackTrace) => ErrorText(
                 message: error.toString(),

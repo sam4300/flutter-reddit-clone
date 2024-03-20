@@ -12,7 +12,6 @@ class ProfileDrawer extends ConsumerWidget {
   }
 
   void navigateToUserProfileScreen(BuildContext context, String uid) {
-    print(uid);
     Routemaster.of(context).push('/u/$uid');
   }
 

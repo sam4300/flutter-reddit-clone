@@ -9,7 +9,7 @@ import 'package:reddit_clone/models/failure_model.dart';
 
 final storageRepositoryProvider = Provider(
   (ref) => StorageRepository(
-    firebaseStorage: ref.watch(storageProvider),
+    firebaseStorage: ref.read(storageProvider),
   ),
 );
 

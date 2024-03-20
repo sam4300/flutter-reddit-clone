@@ -8,7 +8,7 @@ import 'package:reddit_clone/models/community_model.dart';
 import 'package:reddit_clone/models/failure_model.dart';
 
 final communityRepositoryProvider = Provider((ref) {
-  return CommunityRepository(firestore: ref.watch(firestoreProvider));
+  return CommunityRepository(firestore: ref.read(firestoreProvider));
 });
 
 class CommunityRepository {
