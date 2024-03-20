@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_clone/theme/palette.dart';
+import 'package:routemaster/routemaster.dart';
 
 class ProfileDrawer extends ConsumerWidget {
   const ProfileDrawer({super.key});
@@ -10,16 +11,21 @@ class ProfileDrawer extends ConsumerWidget {
     ref.read(authControllerProvider.notifier).logOut();
   }
 
+  void navigateToUserProfileScreen(BuildContext context, String uid) {
+    print(uid);
+    Routemaster.of(context).push('/u/$uid');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.read(userProvider);
+    final user = ref.read(userProvider)!;
     return SafeArea(
       child: Drawer(
         child: Column(
           children: [
             CircleAvatar(
               radius: 60,
-              backgroundImage: NetworkImage(user!.profilePic),
+              backgroundImage: NetworkImage(user.profilePic),
             ),
             const SizedBox(
               height: 10,
@@ -35,7 +41,7 @@ class ProfileDrawer extends ConsumerWidget {
               color: Pallete.greyColor,
             ),
             ListTile(
-              onTap: () {},
+              onTap: () => navigateToUserProfileScreen(context, user.uid),
               leading: const Icon(Icons.person),
               title: const Text('My Profile'),
             ),

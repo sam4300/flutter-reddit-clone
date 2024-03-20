@@ -14,7 +14,7 @@ class CommunityDrawer extends ConsumerWidget {
   }
 
   void navigateToCommunityScreen(BuildContext context, String name) {
-    Routemaster.of(context).push('/r/$name');
+    Routemaster.of(context).push('/r');
   }
 
   @override

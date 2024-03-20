@@ -15,15 +15,15 @@ import 'package:routemaster/routemaster.dart';
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
   return CommunityController(
-    communityRepository: ref.read(communityRepositoryProvider),
+    communityRepository: ref.watch(communityRepositoryProvider),
     ref: ref,
-    storageRepository: ref.read(storageRepositoryProvider),
+    storageRepository: ref.watch(storageRepositoryProvider),
   );
 });
 
 final communityListProvider = StreamProvider.family((ref, String uid) {
   final getCommunityControllerProvider =
-      ref.watch(communityControllerProvider.notifier);
+      ref.read(communityControllerProvider.notifier);
   return getCommunityControllerProvider.getCommunities(uid);
 });
 
@@ -138,5 +138,21 @@ class CommunityController extends StateNotifier<bool> {
 
     res.fold((l) => showSnackBar(context, l.message),
         (r) => Routemaster.of(context).pop());
+  }
+
+  // void addModerator(
+  //     String communityName, List<String> uids, BuildContext context) async {
+  //   final res = await _communityRepository.addModerator(communityName, uids);
+  //   res.fold((l) => showSnackBar(context, l.message),
+  //       (r) => Routemaster.of(context).pop());
+  // }
+
+  void addModerator(
+      String communityName, List<String> uids, BuildContext context) async {
+    final res = await _communityRepository.addModerator(communityName, uids);
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) => Routemaster.of(context).pop(),
+    );
   }
 }

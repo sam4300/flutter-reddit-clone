@@ -8,8 +8,8 @@ import 'package:reddit_clone/models/community_model.dart';
 import 'package:reddit_clone/theme/palette.dart';
 import 'package:routemaster/routemaster.dart';
 
-void navigateToModToolScreen(BuildContext context) {
-  Routemaster.of(context).push('/mod-screen');
+void navigateToModToolScreen(BuildContext context, String name) {
+  Routemaster.of(context).push('/r/mod-tools');
 }
 
 class CommunityScreen extends ConsumerWidget {
@@ -26,7 +26,7 @@ class CommunityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider)!;
+    final user = ref.read(userProvider)!;
     return Scaffold(
       body: ref.watch(communityByNameProvider).when(
           data: (community) => NestedScrollView(
@@ -78,8 +78,8 @@ class CommunityScreen extends ConsumerWidget {
                                               BorderRadius.circular(20),
                                         ),
                                       ),
-                                      onPressed: () =>
-                                          navigateToModToolScreen(context),
+                                      onPressed: () => navigateToModToolScreen(
+                                          context, community.name),
                                       child: const Text(
                                         'Mod Tools',
                                         style: TextStyle(color: Colors.blue),

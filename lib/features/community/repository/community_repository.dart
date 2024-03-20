@@ -120,4 +120,22 @@ class CommunityRepository {
       );
     }
   }
+
+  FutureVoid addModerator(String communityName, List<String> uids) async {
+    try {
+      return right(
+        _communities.doc(communityName).update(
+          {'mods': uids},
+        ),
+      );
+    } on FirebaseException catch (e) {
+      throw e.toString();
+    } catch (e) {
+      return left(
+        Failure(
+          e.toString(),
+        ),
+      );
+    }
+  }
 }

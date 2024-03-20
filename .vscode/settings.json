@@ -5,6 +5,7 @@
         "firestore",
         "fpdart",
         "riverpod",
-        "Routemaster"
+        "Routemaster",
+        "uids"
     ]
 }
