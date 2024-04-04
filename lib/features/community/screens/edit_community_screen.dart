@@ -12,7 +12,8 @@ import 'package:reddit_clone/models/community_model.dart';
 import 'package:reddit_clone/theme/palette.dart';
 
 class EditCommunityScreen extends ConsumerStatefulWidget {
-  const EditCommunityScreen({super.key});
+  final String communityName;
+  const EditCommunityScreen({super.key, required this.communityName});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -54,7 +55,7 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
   Widget build(BuildContext context) {
     final isLoading = ref.watch(communityControllerProvider);
 
-    return ref.watch(communityByNameProvider).when(
+    return ref.watch(communityByNameProvider(widget.communityName)).when(
           data: (community) => Scaffold(
             appBar: AppBar(
               title: const Text('Edit Community'),
@@ -100,7 +101,7 @@ class _EditCommunityScreenState extends ConsumerState<EditCommunityScreen> {
                                           )
                                         : community.banner.isEmpty ||
                                                 community.banner ==
-                                                    Constant.bannerDefault
+                                                    Constants.bannerDefault
                                             ? const Center(
                                                 child: Icon(
                                                   Icons.camera_alt_outlined,

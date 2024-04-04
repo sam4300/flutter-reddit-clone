@@ -15,28 +15,25 @@ import 'package:routemaster/routemaster.dart';
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
   return CommunityController(
-    communityRepository: ref.watch(communityRepositoryProvider),
+    communityRepository: ref.read(communityRepositoryProvider),
     ref: ref,
-    storageRepository: ref.watch(storageRepositoryProvider),
+    storageRepository: ref.read(storageRepositoryProvider),
   );
 });
 
-final communityListProvider = StreamProvider.family((ref, String uid) {
-  final getCommunityControllerProvider =
-      ref.read(communityControllerProvider.notifier);
-  return getCommunityControllerProvider.getCommunities(uid);
+final getUserCommunityProvider = StreamProvider((ref) {
+  final comController = ref.read(communityControllerProvider.notifier);
+  return comController.getUserCommunities();
 });
 
-final communityNameProvider = StateProvider<String?>((ref) => null);
-
-final communityByNameProvider = StreamProvider((ref) {
-  final name = ref.watch(communityNameProvider);
-  final controller = ref.watch(communityControllerProvider.notifier);
-  return controller.getCommunityByName(name!);
+final communityByNameProvider =
+    StreamProvider.family((ref, String communityName) {
+  final controller = ref.read(communityControllerProvider.notifier);
+  return controller.getCommunityByName(communityName);
 });
 
 final searchCommunityProvider = StreamProvider.family((ref, String query) {
-  final controller = ref.watch(communityControllerProvider.notifier);
+  final controller = ref.read(communityControllerProvider.notifier);
 
   return controller.searchCommunity(query);
 });
@@ -61,8 +58,8 @@ class CommunityController extends StateNotifier<bool> {
     Community community = Community(
       id: name,
       name: name,
-      banner: Constant.bannerDefault,
-      avatar: Constant.avatarDefault,
+      banner: Constants.bannerDefault,
+      avatar: Constants.avatarDefault,
       members: [uid],
       mods: [uid],
     );
@@ -95,8 +92,13 @@ class CommunityController extends StateNotifier<bool> {
     return _communityRepository.getCommunityByName(name);
   }
 
-  Stream<List<Community>> getCommunities(String uid) {
-    return _communityRepository.getCommunities(uid);
+  Stream<List<Community>> getUserCommunities() {
+    final user = _ref.read(userProvider)!;
+    return _communityRepository.getUserCommunities(user.uid);
+  }
+
+  Stream<Community> getCommunityByNameForPost(String name) {
+    return _communityRepository.getCommunityByNameForPost(name);
   }
 
   Stream<List<Community>> searchCommunity(String query) {
@@ -139,13 +141,6 @@ class CommunityController extends StateNotifier<bool> {
     res.fold((l) => showSnackBar(context, l.message),
         (r) => Routemaster.of(context).pop());
   }
-
-  // void addModerator(
-  //     String communityName, List<String> uids, BuildContext context) async {
-  //   final res = await _communityRepository.addModerator(communityName, uids);
-  //   res.fold((l) => showSnackBar(context, l.message),
-  //       (r) => Routemaster.of(context).pop());
-  // }
 
   void addModerator(
       String communityName, List<String> uids, BuildContext context) async {

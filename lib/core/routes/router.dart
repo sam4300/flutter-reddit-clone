@@ -6,7 +6,8 @@ import 'package:reddit_clone/features/community/screens/create_community_screen.
 import 'package:reddit_clone/features/community/screens/edit_community_screen.dart';
 import 'package:reddit_clone/features/community/screens/mod_tools_screen.dart';
 import 'package:reddit_clone/features/home/screens/home_screen.dart';
-import 'package:reddit_clone/features/user_profile/screens/edit_userProfile_screen.dart';
+import 'package:reddit_clone/features/post/screens/post_type_screen.dart';
+import 'package:reddit_clone/features/user_profile/screens/edit_userprofile_screen.dart';
 import 'package:reddit_clone/features/user_profile/screens/user_profile_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -19,14 +20,22 @@ final loggedInRoute = RouteMap(
     '/': (_) => const MaterialPage(child: HomeScreen()),
     '/create-community': (_) =>
         const MaterialPage(child: CreateCommunityScreen()),
-    '/r': (_) => const MaterialPage(
-          child: CommunityScreen(),
+    '/r/:communityName': (routeData) => MaterialPage(
+          child: CommunityScreen(
+            communityName: routeData.pathParameters['communityName']!,
+          ),
         ),
-    '/r/mod-tools': (_) => const MaterialPage(child: ModToolScreen()),
-    '/r/mod-tools/edit-community': (_) =>
-        const MaterialPage(child: EditCommunityScreen()),
-    '/r/mod-tools/add-mods': (_) =>
-        const MaterialPage(child: AddModeratorScreen()),
+    '/r/:communityName/mod-tools/': (routeData) => MaterialPage(
+        child: ModToolScreen(
+            communityName: routeData.pathParameters['communityName']!)),
+    '/r/:communityName/mod-tools/edit-community': (routeData) => MaterialPage(
+            child: EditCommunityScreen(
+          communityName: routeData.pathParameters['communityName']!,
+        )),
+    '/r/:communityName/mod-tools/add-mods': (routeData) => MaterialPage(
+            child: AddModeratorScreen(
+          communityName: routeData.pathParameters['communityName']!,
+        )),
     '/u/:uid': (routeData) => MaterialPage(
           child: UserProfileScreen(
             uid: routeData.pathParameters['uid']!,
@@ -35,6 +44,11 @@ final loggedInRoute = RouteMap(
     '/u/:uid/edit-user-profile': (routeData) => MaterialPage(
           child: EditUserProfileScreen(
             uid: routeData.pathParameters['uid']!,
+          ),
+        ),
+    '/post-type-screen/:type': (routeData) => MaterialPage(
+          child: PostTypeScreen(
+            type: routeData.pathParameters['type']!,
           ),
         ),
   },

@@ -115,7 +115,7 @@ class _EditUserProfileScreenState extends ConsumerState<EditUserProfileScreen> {
                                           )
                                         : user.banner.isEmpty ||
                                                 user.banner ==
-                                                    Constant.bannerDefault
+                                                    Constants.bannerDefault
                                             ? const Center(
                                                 child: Icon(
                                                   Icons.camera_alt_outlined,

@@ -17,7 +17,7 @@ class SigninButton extends ConsumerWidget {
       children: [
         ElevatedButton.icon(
           icon: Image.asset(
-            Constant.googleLogoPath,
+            Constants.googleLogoPath,
             height: 40,
           ),
           onPressed: () {

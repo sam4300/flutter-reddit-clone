@@ -8,14 +8,9 @@ import 'package:reddit_clone/models/community_model.dart';
 import 'package:reddit_clone/theme/palette.dart';
 import 'package:routemaster/routemaster.dart';
 
-void navigateToModToolScreen(BuildContext context, String name) {
-  Routemaster.of(context).push('/r/mod-tools');
-}
-
 class CommunityScreen extends ConsumerWidget {
-  const CommunityScreen({
-    super.key,
-  });
+  final String communityName;
+  const CommunityScreen({super.key, required this.communityName});
 
   void joinOrLeaveCommunity(
       WidgetRef ref, BuildContext context, Community community) {
@@ -24,11 +19,15 @@ class CommunityScreen extends ConsumerWidget {
         .joinOrLeaveCommunity(context, community);
   }
 
+  void navigateToModToolScreen(BuildContext context) {
+    Routemaster.of(context).push('/r/$communityName/mod-tools');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.read(userProvider)!;
     return Scaffold(
-      body: ref.watch(communityByNameProvider).when(
+      body: ref.watch(communityByNameProvider(communityName)).when(
           data: (community) => NestedScrollView(
                 headerSliverBuilder: ((context, innerBoxIsScrolled) {
                   return [
@@ -78,8 +77,8 @@ class CommunityScreen extends ConsumerWidget {
                                               BorderRadius.circular(20),
                                         ),
                                       ),
-                                      onPressed: () => navigateToModToolScreen(
-                                          context, community.name),
+                                      onPressed: () =>
+                                          navigateToModToolScreen(context),
                                       child: const Text(
                                         'Mod Tools',
                                         style: TextStyle(color: Colors.blue),

@@ -6,7 +6,8 @@ import 'package:reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_clone/features/community/controller/community_controller.dart';
 
 class AddModeratorScreen extends ConsumerStatefulWidget {
-  const AddModeratorScreen({super.key});
+  final String communityName;
+  const AddModeratorScreen({super.key, required this.communityName});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -40,19 +41,18 @@ class _AddModeratorScreenState extends ConsumerState<AddModeratorScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.read(userProvider)!.uid;
-    final communityName = ref.watch(communityNameProvider)!;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('add mods'),
         actions: [
           IconButton(
-            onPressed: () => modifyModerators(communityName),
+            onPressed: () => modifyModerators(widget.communityName),
             icon: const Icon(Icons.done),
           )
         ],
       ),
-      body: ref.read(communityByNameProvider).when(
+      body: ref.watch(communityByNameProvider(widget.communityName)).when(
           data: (community) {
             isLoading = false;
             return isLoading

@@ -14,7 +14,7 @@ class LoginScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(
-          Constant.logoPath,
+          Constants.logoPath,
           height: 40,
         ),
         centerTitle: true,
@@ -44,7 +44,7 @@ class LoginScreen extends ConsumerWidget {
                   height: 20,
                 ),
                 Image.asset(
-                  Constant.loginEmotePath,
+                  Constants.loginEmotePath,
                   height: 400,
                   width: double.infinity,
                 ),
