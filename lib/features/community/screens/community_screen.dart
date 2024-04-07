@@ -2,8 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:reddit_clone/core/common/error_text.dart';
 import 'package:reddit_clone/core/common/loader.dart';
+import 'package:reddit_clone/core/common/post_card.dart';
 import 'package:reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:reddit_clone/features/community/controller/community_controller.dart';
+import 'package:reddit_clone/features/post/controller/post_controller.dart';
 import 'package:reddit_clone/models/community_model.dart';
 import 'package:reddit_clone/theme/palette.dart';
 import 'package:routemaster/routemaster.dart';
@@ -107,17 +109,31 @@ class CommunityScreen extends ConsumerWidget {
                             ],
                           ),
                           Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: community.members.length <= 1
-                                  ? Text('${community.members.length} member')
-                                  : Text(
-                                      '${community.members.length} members')),
+                            padding: const EdgeInsets.only(top: 10),
+                            child: community.members.length <= 1
+                                ? Text('${community.members.length} member')
+                                : Text('${community.members.length} members'),
+                          ),
                         ]),
                       ),
                     ),
                   ];
                 }),
-                body: const Text('Posts'),
+                body: ref.watch(getCommunityPostProvider(communityName)).when(
+                      data: (posts) => posts.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: posts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final post = posts[index];
+                                return PostCard(post: post);
+                              },
+                            )
+                          : const Center(child: Text('No posts yet')),
+                      error: (error, stackTrace) => ErrorText(
+                        message: error.toString(),
+                      ),
+                      loading: () => const Loader(),
+                    ),
               ),
           error: (error, stackTrace) => ErrorText(message: error.toString()),
           loading: () => const Loader()),

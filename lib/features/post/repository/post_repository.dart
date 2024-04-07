@@ -99,4 +99,32 @@ class PostRepository {
       });
     }
   }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _posts
+        .where('uid', isEqualTo: uid)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => Post.fromMap(e.data() as Map<String, dynamic>),
+              )
+              .toList(),
+        );
+  }
+
+  Stream<List<Post>> getCommunityPost(String communityName) {
+    return _posts
+        .where('communityName', isEqualTo: communityName)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map(
+          (event) => event.docs
+              .map(
+                (e) => Post.fromMap(e.data() as Map<String, dynamic>),
+              )
+              .toList(),
+        );
+  }
 }

@@ -25,6 +25,16 @@ final allPostsProvider =
   return controllerRef.posts(communities);
 });
 
+final getUserPostsProvider = StreamProvider.family((ref, String uid) {
+  return ref.read(postControllerProvider.notifier).getUserPosts(uid);
+});
+final getCommunityPostProvider =
+    StreamProvider.family((ref, String communityName) {
+  return ref
+      .read(postControllerProvider.notifier)
+      .getCommunityPost(communityName);
+});
+
 class PostController extends StateNotifier<bool> {
   final PostRepository _postRepository;
   final Ref _ref;
@@ -168,5 +178,13 @@ class PostController extends StateNotifier<bool> {
   void downVote(Post post) {
     final userId = _ref.read(userProvider)!.uid;
     _postRepository.downVote(post, userId);
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _postRepository.getUserPosts(uid);
+  }
+
+  Stream<List<Post>> getCommunityPost(String communityName) {
+    return _postRepository.getCommunityPost(communityName);
   }
 }
