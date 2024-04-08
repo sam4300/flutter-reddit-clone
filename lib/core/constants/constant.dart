@@ -24,7 +24,6 @@ class Constants {
   static const awardsPath = 'assets/images/awards';
 
   static const awards = {
-    'awesomeAns': '${Constants.awardsPath}/awesomeanswer.png',
     'gold': '${Constants.awardsPath}/gold.png',
     'platinum': '${Constants.awardsPath}/platinum.png',
     'helpful': '${Constants.awardsPath}/helpful.png',

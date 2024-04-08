@@ -54,7 +54,7 @@ class CommunityController extends StateNotifier<bool> {
 
   void createCommunity(String name, BuildContext context) async {
     state = true;
-    final uid = _ref.read(userProvider)!.uid;
+    final uid = _ref.watch(userProvider)!.uid;
     Community community = Community(
       id: name,
       name: name,
@@ -72,7 +72,7 @@ class CommunityController extends StateNotifier<bool> {
   }
 
   void joinOrLeaveCommunity(BuildContext context, Community community) async {
-    final user = _ref.read(userProvider)!;
+    final user = _ref.watch(userProvider)!;
     Either<Failure, void> res;
     if (community.members.contains(user.uid)) {
       res = await _communityRepository.leaveCommunity(community.name, user.uid);
@@ -93,7 +93,7 @@ class CommunityController extends StateNotifier<bool> {
   }
 
   Stream<List<Community>> getUserCommunities() {
-    final user = _ref.read(userProvider)!;
+    final user = _ref.watch(userProvider)!;
     return _communityRepository.getUserCommunities(user.uid);
   }
 

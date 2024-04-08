@@ -27,7 +27,8 @@ class CommunityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.read(userProvider)!;
+    final user = ref.watch(userProvider)!;
+    final isGuest = !user.isAuthenticated;
     return Scaffold(
       body: ref.watch(communityByNameProvider(communityName)).when(
           data: (community) => NestedScrollView(
@@ -68,44 +69,45 @@ class CommunityScreen extends ConsumerWidget {
                                 style: const TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.bold),
                               ),
-                              community.mods.contains(user.uid)
-                                  ? OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                            color: Pallete.greyColor),
-                                        padding: const EdgeInsets.all(10),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                              if (!isGuest)
+                                community.mods.contains(user.uid)
+                                    ? OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          side: const BorderSide(
+                                              color: Pallete.greyColor),
+                                          padding: const EdgeInsets.all(10),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
                                         ),
-                                      ),
-                                      onPressed: () =>
-                                          navigateToModToolScreen(context),
-                                      child: const Text(
-                                        'Mod Tools',
-                                        style: TextStyle(color: Colors.blue),
-                                      ),
-                                    )
-                                  : OutlinedButton(
-                                      style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                            color: Pallete.greyColor),
-                                        padding: const EdgeInsets.all(10),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                                        onPressed: () =>
+                                            navigateToModToolScreen(context),
+                                        child: const Text(
+                                          'Mod Tools',
+                                          style: TextStyle(color: Colors.blue),
                                         ),
-                                      ),
-                                      onPressed: () => joinOrLeaveCommunity(
-                                          ref, context, community),
-                                      child: Text(
-                                        community.members.contains(user.uid)
-                                            ? 'Joined'
-                                            : 'Join',
-                                        style:
-                                            const TextStyle(color: Colors.blue),
-                                      ),
-                                    )
+                                      )
+                                    : OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          side: const BorderSide(
+                                              color: Pallete.greyColor),
+                                          padding: const EdgeInsets.all(10),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                        ),
+                                        onPressed: () => joinOrLeaveCommunity(
+                                            ref, context, community),
+                                        child: Text(
+                                          community.members.contains(user.uid)
+                                              ? 'Joined'
+                                              : 'Join',
+                                          style: const TextStyle(
+                                              color: Colors.blue),
+                                        ),
+                                      )
                             ],
                           ),
                           Padding(

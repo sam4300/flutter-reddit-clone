@@ -17,6 +17,7 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(userProvider)!;
     return Scaffold(
       body: Scaffold(
         body: ref.watch(userDataProvider(uid)).when(
@@ -45,24 +46,25 @@ class UserProfileScreen extends ConsumerWidget {
                               radius: 45,
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.bottomLeft,
-                            padding: const EdgeInsets.all(20),
-                            child: OutlinedButton(
-                              onPressed: () => navigateToEditUser(context),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                          if (currentUser.uid == uid)
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              padding: const EdgeInsets.all(20),
+                              child: OutlinedButton(
+                                onPressed: () => navigateToEditUser(context),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
                                 ),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 25),
-                              ),
-                              child: const Text(
-                                'Edit Profile',
-                                style: TextStyle(color: Colors.blue),
+                                child: const Text(
+                                  'Edit Profile',
+                                  style: TextStyle(color: Colors.blue),
+                                ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),

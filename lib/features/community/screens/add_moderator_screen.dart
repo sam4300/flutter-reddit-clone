@@ -40,7 +40,7 @@ class _AddModeratorScreenState extends ConsumerState<AddModeratorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.read(userProvider)!.uid;
+    final currentUser = ref.watch(userProvider)!.uid;
 
     return Scaffold(
       appBar: AppBar(
